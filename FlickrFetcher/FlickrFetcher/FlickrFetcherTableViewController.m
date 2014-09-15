@@ -8,10 +8,13 @@
 
 #import "FlickrFetcherTableViewController.h"
 #import "FlickrFetcherUtility.h"
+#import "FlickrFetcher.h"
 
 @interface FlickrFetcherTableViewController ()
 
 @property NSDictionary *topPlacesDictionary;
+@property NSDictionary *placesTree;
+@property NSArray *sizesOfPlacesTree;
 
 @end
 
@@ -25,20 +28,22 @@
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.topPlacesDictionary = [FlickrFetcherUtility dictionaryForTopPlaces];
-    [FlickrFetcherUtility boom];
+    NSArray *places = [self.topPlacesDictionary valueForKeyPath:FLICKR_RESULTS_PLACES];
+    self.placesTree = [FlickrFetcherUtility placesTree:places];
+    NSLog(@"places tree: %@", self.placesTree);
+    self.sizesOfPlacesTree = [FlickrFetcherUtility sizesOfDictionary:self.placesTree];
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return [self.sizesOfPlacesTree count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) return 2;
-    return 4;
+    return [self.sizesOfPlacesTree[section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

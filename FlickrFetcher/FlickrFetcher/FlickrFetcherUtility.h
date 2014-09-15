@@ -14,5 +14,9 @@
 + (NSDictionary *)dictionaryForTopPlaces;
 + (NSDictionary *)dictionaryForPhotosInPlace:(id)placeId maxResults:(int)maxResults;
 + (void)boom;
++ (NSURL *)getUrlForPhoto:(NSDictionary *)photo;
++ (NSArray *)photosDictionariesForPlace:(id)placeId maxResults:(NSInteger)maxResults;
++ (NSMutableDictionary *)placesTree:(NSArray *)places;
++ (NSArray *)sizesOfDictionary:(NSDictionary *)dictionary;
 
 @end

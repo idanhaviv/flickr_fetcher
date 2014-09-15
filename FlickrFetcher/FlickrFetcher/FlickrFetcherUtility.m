@@ -15,13 +15,54 @@
 {
     
     NSDictionary *res = [FlickrFetcherUtility dictionaryForTopPlaces];
-    NSDictionary *dict = [res valueForKeyPath:FLICKR_RESULTS_PLACES];
+    NSArray *places = [res valueForKeyPath:FLICKR_RESULTS_PLACES];
 //    NSLog(@"dictionaryForTopPlaces is: %@", res);
 //    NSLog(@"dictionary[place] is: %@", ress);
-    NSArray *photosForPlace = [self photosDictionariesForPlace:@"sv0jEhFVVr8ROg" maxResults:5];
-    NSURL *url0 = [self getUrlForPhoto:photosForPlace[0]];
+//    NSArray *photosForPlace = [self photosDictionariesForPlace:@"sv0jEhFVVr8ROg" maxResults:5];
+//    NSURL *url0 = [self getUrlForPhoto:photosForPlace[0]];
+    
+    NSDictionary *tree = [self placesTree:places];
     
 
+}
+
++ (NSArray *)sizesOfDictionary:(NSDictionary *)dictionary
+{
+    NSMutableArray *sizes = [[NSMutableArray alloc] init];
+    for (NSArray *item in [dictionary allValues])
+    {
+        NSUInteger cnt = [item count];
+        NSNumber *num = [NSNumber numberWithInteger:cnt];
+        [sizes addObject:num];
+    }
+    
+    return sizes;
+}
+
++ (NSMutableDictionary *)placesTree:(NSArray *)places //returns a dictionary: keys = countries, values = array of places in that country
+{
+    NSMutableDictionary *placesTree = [[NSMutableDictionary alloc] init];
+    for (NSDictionary *place in places)
+    {
+        NSArray *placeDetails = [[place valueForKeyPath:FLICKR_PLACE_NAME] componentsSeparatedByString:@","]; //first 2 entries are specific and third is country
+        if ([placeDetails count] != 3)
+        {
+            NSLog(@"place details aren't as expected");
+            continue;
+        }
+        
+        NSString *country = placeDetails[2];
+        NSString *specificLocation = [placeDetails[0] stringByAppendingString:placeDetails[1]];
+        if (![placesTree objectForKey:placeDetails[2]]) //placeTree doesn't contain country entree
+        {
+            NSMutableArray *specificLocationsForCountry = [[NSMutableArray alloc] init];
+            [placesTree setObject:specificLocationsForCountry forKey:country];
+        }
+        
+        [[placesTree objectForKey:country] addObject:specificLocation];
+    }
+
+    return placesTree;
 }
 
 + (NSURL *)getUrlForPhoto:(NSDictionary *)photo
