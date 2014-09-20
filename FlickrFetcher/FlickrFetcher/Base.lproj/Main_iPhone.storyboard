@@ -13,7 +13,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Flickr Photo Cell" textLabel="gj4-lc-irs" detailTextLabel="EKr-7Y-Pn3" style="IBUITableViewCellStyleSubtitle" id="H2g-JH-YYq">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Flickr Photo Cell" textLabel="gj4-lc-irs" detailTextLabel="tl1-6D-evq" style="IBUITableViewCellStyleSubtitle" id="H2g-JH-YYq">
                                 <rect key="frame" x="0.0" y="55" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="H2g-JH-YYq" id="toZ-uG-GAY">
@@ -27,7 +27,7 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EKr-7Y-Pn3">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tl1-6D-evq">
                                             <rect key="frame" x="15" y="25" width="43" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -37,7 +37,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="jWN-BE-BBr" kind="push" id="SNI-QL-GkJ"/>
+                                    <segue destination="jWN-BE-BBr" kind="push" identifier="topPlacesPhotoCellSegue" id="SNI-QL-GkJ"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -52,10 +52,10 @@
             </objects>
             <point key="canvasLocation" x="755" y="-53"/>
         </scene>
-        <!--View Controller-->
+        <!--Photo View Controller-->
         <scene sceneID="2SA-33-hJQ">
             <objects>
-                <viewController id="jWN-BE-BBr" sceneMemberID="viewController">
+                <viewController id="jWN-BE-BBr" customClass="PhotoViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9tE-3c-muL"/>
                         <viewControllerLayoutGuide type="bottom" id="Ox1-0P-7v9"/>

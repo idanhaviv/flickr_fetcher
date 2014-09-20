@@ -21,7 +21,7 @@
 //    NSArray *photosForPlace = [self photosDictionariesForPlace:@"sv0jEhFVVr8ROg" maxResults:5];
 //    NSURL *url0 = [self getUrlForPhoto:photosForPlace[0]];
     
-    NSDictionary *tree = [self placesTree:places];
+    NSDictionary *dictionary = [self placesDictionary:places];
     
 
 }
@@ -39,9 +39,9 @@
     return sizes;
 }
 
-+ (NSMutableDictionary *)placesTree:(NSArray *)places //returns a dictionary: keys = countries, values = array of places in that country
++ (NSMutableDictionary *)placesDictionary:(NSArray *)places //returns a dictionary: keys = countries, values = array of places in that country
 {
-    NSMutableDictionary *placesTree = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *placesDictionary = [[NSMutableDictionary alloc] init];
     for (NSDictionary *place in places)
     {
         NSArray *placeDetails = [[place valueForKeyPath:FLICKR_PLACE_NAME] componentsSeparatedByString:@","]; //first 2 entries are specific and third is country
@@ -52,20 +52,36 @@
         }
         
         NSString *country = placeDetails[2];
-        NSString *specificLocation = [placeDetails[0] stringByAppendingString:placeDetails[1]];
-        if (![placesTree objectForKey:placeDetails[2]]) //placeTree doesn't contain country entree
+        NSString *specificLocation = [[placeDetails[0] stringByAppendingString:@","] stringByAppendingString:placeDetails[1]];
+        if (![placesDictionary objectForKey:placeDetails[2]]) //placeTree doesn't contain country entree
         {
             NSMutableArray *specificLocationsForCountry = [[NSMutableArray alloc] init];
-            [placesTree setObject:specificLocationsForCountry forKey:country];
+            [placesDictionary setObject:specificLocationsForCountry forKey:country];
         }
         
-        [[placesTree objectForKey:country] addObject:specificLocation];
+        [[placesDictionary objectForKey:country] addObject:specificLocation];
     }
 
-    return placesTree;
+    return placesDictionary;
 }
 
-+ (NSURL *)getUrlForPhoto:(NSDictionary *)photo
++ (NSDictionary *)sortPlaces:(NSDictionary *)places
+{
+    for (NSString *place in [places allKeys])
+    {
+        NSArray *placesArray = [places objectForKey:place];
+        placesArray = [placesArray sortedArrayUsingComparator:^(id obj1, id obj2) {
+            NSComparisonResult result = [obj1 caseInsensitiveCompare:obj2];
+            return result;
+        }];
+        
+        [places setValue:placesArray forKey:place];
+    }
+    
+    return places;
+}
+
++ (NSURL *)urlForPhoto:(NSDictionary *)photo
 {
     NSArray *objects = @[photo[@"farm"], photo[@"server"], photo[@"id"], photo[@"secret"], photo[@"originalsecret"], photo[@"originalformat"]];
     NSArray *keys =@[@"farm", @"server", @"id", @"secret", @"originalsecret", @"originalformat"];
@@ -93,7 +109,7 @@
 {
     NSError *error;
     NSURL *urlForTopPlaces = [FlickrFetcher URLforTopPlaces];
-    NSData *dataForTopPlaces = [NSData dataWithContentsOfURL:urlForTopPlaces];
+    NSData *dataForTopPlaces = [NSData dataWithContentsOfURL:urlForTopPlaces]; // synchronous (bad practice)
     NSDictionary *dictionaryForTopPlaces = [NSJSONSerialization JSONObjectWithData:dataForTopPlaces
                                                                            options:0
                                                                              error:&error];

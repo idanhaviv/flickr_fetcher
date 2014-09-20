@@ -9,12 +9,14 @@
 #import "FlickrFetcherTableViewController.h"
 #import "FlickrFetcherUtility.h"
 #import "FlickrFetcher.h"
+#import "PhotoViewController.h"
 
 @interface FlickrFetcherTableViewController ()
 
-@property NSDictionary *topPlacesDictionary;
-@property NSDictionary *placesTree;
-@property NSArray *sizesOfPlacesTree;
+@property (nonatomic) NSDictionary *topPlacesDictionary;
+@property (nonatomic) NSDictionary *places;
+@property (nonatomic) NSArray *sizesOfPlacesDictionary;
+@property (nonatomic) NSArray *placesArray;
 
 @end
 
@@ -27,32 +29,54 @@
     self.clearsSelectionOnViewWillAppear = NO;
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    self.topPlacesDictionary = [FlickrFetcherUtility dictionaryForTopPlaces];
-    NSArray *places = [self.topPlacesDictionary valueForKeyPath:FLICKR_RESULTS_PLACES];
-    self.placesTree = [FlickrFetcherUtility placesTree:places];
-    NSLog(@"places tree: %@", self.placesTree);
-    self.sizesOfPlacesTree = [FlickrFetcherUtility sizesOfDictionary:self.placesTree];
+    [self prepareDataForTableViewCells];
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [self.sizesOfPlacesTree count];
+    return [self.sizesOfPlacesDictionary count];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return self.placesArray[section];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.sizesOfPlacesTree[section] count];
+    return [self.sizesOfPlacesDictionary[section] integerValue];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Flickr Photo Cell" forIndexPath:indexPath];
     
-    cell.textLabel.text = [NSString stringWithFormat:@"this is row %d in section %d", indexPath.row, indexPath.section];
+    NSString *country = self.placesArray[indexPath.section];
+    
+    NSString *placeInCountry = [self.places objectForKey:country][indexPath.row];
+    
+    NSArray *placeSeparated = [placeInCountry componentsSeparatedByString:@","];
+    
+    cell.textLabel.text = placeSeparated[0];
+    
+    cell.detailTextLabel.text = placeSeparated[1];
     
     return cell;
+}
+
+#pragma mark - helper methods
+
+- (void)prepareDataForTableViewCells
+{
+    self.topPlacesDictionary = [FlickrFetcherUtility dictionaryForTopPlaces];
+    NSArray *places = [self.topPlacesDictionary valueForKeyPath:FLICKR_RESULTS_PLACES];
+    self.places = [FlickrFetcherUtility placesDictionary:places];
+    self.sizesOfPlacesDictionary = [FlickrFetcherUtility sizesOfDictionary:self.places];
+    self.placesArray = [self.places allKeys];
+    self.places = [FlickrFetcherUtility sortPlaces:self.places];
+    
 }
 
 /*
@@ -93,15 +117,25 @@
 }
 */
 
-/*
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"topPlacesPhotoCellSegue"])
+    {
+        PhotoViewController *photoVC = [segue destinationViewController];
+        [photoVC setPhotoDetails:[self getPhotoDetailsForCell:sender]];
+    }
+    
 }
-*/
+         
+- (NSDictionary *)getPhotoDetailsForCell:(UITableViewCell *)cell
+{
+    NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
+    UITableViewHeaderFooterView *headerView = [self.tableView headerViewForSection:cellIndexPath.section];
+    NSArray *placesForSection = [self.places objectForKey:headerView.textLabel.text];
+    NSDictionary *placeDetails = placesForSection[cellIndexPath.row];
+    return placeDetails;
+}
 
 @end
