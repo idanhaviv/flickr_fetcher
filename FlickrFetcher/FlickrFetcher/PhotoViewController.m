@@ -12,26 +12,19 @@
 
 @interface PhotoViewController () <NSURLSessionDelegate>
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (nonatomic) NSDictionary *photoDetails;
 
 @end
 
 @implementation PhotoViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSURL *photoURL = [FlickrFetcher URLforPhoto:self.photoDetails format:FlickrPhotoFormatOriginal];
+    NSURL *photoURL = [FlickrFetcher URLforPhoto:self.photoDetails format:FlickrPhotoFormatLarge];
     
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:nil];
@@ -51,8 +44,10 @@
     NSData *data = [NSData dataWithContentsOfURL:location];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-//        [self.progressView setHidden:YES];
+        [self.progressView setHidden:YES];
         [self.imageView setImage:[UIImage imageWithData:data]];
+        [self.scrollView addSubview:self.imageView];
+        self.scrollView.contentSize = self.imageView.bounds.size;
     });
 }
 
@@ -65,7 +60,7 @@
     float progress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
     
     dispatch_async(dispatch_get_main_queue(), ^{
-//        [self.progressView setProgress:progress];
+        [self.progressView setProgress:progress];
     });
 }
 
