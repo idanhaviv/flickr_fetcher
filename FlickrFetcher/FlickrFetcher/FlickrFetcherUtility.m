@@ -11,21 +11,6 @@
 
 @implementation FlickrFetcherUtility
 
-+ (void)boom
-{
-    
-    NSDictionary *res = [FlickrFetcherUtility dictionaryForTopPlaces];
-    NSArray *places = [res valueForKeyPath:FLICKR_RESULTS_PLACES];
-//    NSLog(@"dictionaryForTopPlaces is: %@", res);
-//    NSLog(@"dictionary[place] is: %@", ress);
-//    NSArray *photosForPlace = [self photosDictionariesForPlace:@"sv0jEhFVVr8ROg" maxResults:5];
-//    NSURL *url0 = [self getUrlForPhoto:photosForPlace[0]];
-    
-    NSDictionary *dictionary = [self placesDictionary:places];
-    
-
-}
-
 + (NSArray *)sizesOfDictionary:(NSDictionary *)dictionary
 {
     NSMutableArray *sizes = [[NSMutableArray alloc] init];
@@ -105,15 +90,15 @@
     return photosForPlace;
 }
 
-+ (NSDictionary *)dictionaryForTopPlaces
++ (void)dictionaryForTopPlaces:(void(^)(NSData *, NSError *))successBlock
 {
-    NSError *error;
     NSURL *urlForTopPlaces = [FlickrFetcher URLforTopPlaces];
-    NSData *dataForTopPlaces = [NSData dataWithContentsOfURL:urlForTopPlaces]; // synchronous (bad practice)
-    NSDictionary *dictionaryForTopPlaces = [NSJSONSerialization JSONObjectWithData:dataForTopPlaces
-                                                                           options:0
-                                                                             error:&error];
-    return dictionaryForTopPlaces;
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithURL:urlForTopPlaces
+           completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                   successBlock(data, error);
+           }];
+    [task resume];
 }
 
 + (NSDictionary *)dictionaryForPhotosInPlace:(id)placeId maxResults:(int)maxResults

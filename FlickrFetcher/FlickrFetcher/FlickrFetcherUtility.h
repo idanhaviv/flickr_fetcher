@@ -11,9 +11,8 @@
 
 @interface FlickrFetcherUtility : NSObject
 
-+ (NSDictionary *)dictionaryForTopPlaces;
++ (void)dictionaryForTopPlaces:(void(^)(NSData *, NSError *))successBlock;
 + (NSDictionary *)dictionaryForPhotosInPlace:(id)placeId maxResults:(int)maxResults;
-+ (void)boom;
 + (NSURL *)urlForPhoto:(NSDictionary *)photo;
 + (NSArray *)photosDictionariesForPlace:(id)placeId maxResults:(NSInteger)maxResults;
 + (NSMutableDictionary *)placesDictionary:(NSArray *)places;

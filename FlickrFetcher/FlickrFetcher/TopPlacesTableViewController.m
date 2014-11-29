@@ -1,4 +1,4 @@
-	//
+//
 //  FlickrFetcherTableViewController.m
 //  FlickrFetcher
 //
@@ -10,7 +10,7 @@
 #import "FlickrFetcherUtility.h"
 #import "FlickrFetcher.h"
 #import "PhotoViewController.h"
-    
+
 @interface FlickrFetcherTableViewController ()
 
 @property (nonatomic) NSDictionary *topPlacesDictionary;
@@ -70,33 +70,13 @@
 
 - (void)prepareDataForTableViewCells
 {
-    [FlickrFetcherUtility dictionaryForTopPlaces:^(NSData *data, NSError *error)
-    {
-        if (!error)
-        {
-            NSLog(@"Flickr Fetcher TopPlaces http request successful");
-            NSError *jsonError;
-            self.topPlacesDictionary = [NSJSONSerialization JSONObjectWithData:data
-                                                                       options:0
-                                                                         error:&jsonError];
-            if (jsonError)
-            {
-                NSLog(@"NSJSONSerialization error: %@", jsonError);
-                return;
-            }
-            
-            NSArray *places = [self.topPlacesDictionary valueForKeyPath:FLICKR_RESULTS_PLACES];
-            self.places = [FlickrFetcherUtility placesDictionary:places];
-            self.sizesOfPlacesDictionary = [FlickrFetcherUtility sizesOfDictionary:self.places];
-            self.placesArray = [self.places allKeys];
-            self.places = [FlickrFetcherUtility sortPlaces:self.places];
-            [self.tableView reloadData];
-        }
-        else
-        {
-            NSLog(@"Flickr Fetcher TopPlaces http request error: %@", error);
-        }
-    }];
+    self.topPlacesDictionary = [FlickrFetcherUtility dictionaryForTopPlaces];
+    NSArray *places = [self.topPlacesDictionary valueForKeyPath:FLICKR_RESULTS_PLACES];
+    self.places = [FlickrFetcherUtility placesDictionary:places];
+    self.sizesOfPlacesDictionary = [FlickrFetcherUtility sizesOfDictionary:self.places];
+    self.placesArray = [self.places allKeys];
+    self.places = [FlickrFetcherUtility sortPlaces:self.places];
+    
 }
 
 /*
