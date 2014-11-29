@@ -10,6 +10,6 @@
 
 @interface PhotoViewController : UIViewController
 
-@property (nonatomic) NSDictionary *photoDetails;
+- (void)setPhotoDetails:(NSDictionary *)photoDetails;
 
 @end

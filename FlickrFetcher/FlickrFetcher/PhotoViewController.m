@@ -8,8 +8,12 @@
 
 #import "PhotoViewController.h"
 #import "FlickrFetcherUtility.h"
+#import "FlickrFetcher.h"
 
-@interface PhotoViewController ()
+@interface PhotoViewController () <NSURLSessionDelegate>
+
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (nonatomic) NSDictionary *photoDetails;
 
 @end
 
@@ -27,18 +31,42 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSURL *photoURL = [FlickrFetcherUtility urlForPhoto:self.photoDetails];
+    NSURL *photoURL = [FlickrFetcher URLforPhoto:self.photoDetails format:FlickrPhotoFormatOriginal];
+    
+    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:nil];
+    NSURLSessionDownloadTask *downloadTask = [session downloadTaskWithURL:photoURL];
+    [downloadTask resume];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)setPhotoDetails:(NSDictionary *)photoDetails
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    _photoDetails = photoDetails;
 }
-*/
+
+#pragma mark - NSURLSessionDelegate methods
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
+{
+    NSData *data = [NSData dataWithContentsOfURL:location];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+//        [self.progressView setHidden:YES];
+        [self.imageView setImage:[UIImage imageWithData:data]];
+    });
+}
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes
+{
+    NSLog(@"unhandled");
+}
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+    float progress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+//        [self.progressView setProgress:progress];
+    });
+}
 
 @end

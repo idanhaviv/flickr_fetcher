@@ -9,10 +9,11 @@
 #import "PhotosForPlaceTVC.h"
 #import "FlickrFetcher.h"
 #import "FlickrFetcherUtility.h"
+#import "PhotoViewController.h"
 
 @interface PhotosForPlaceTVC ()
 
-@property (nonatomic) NSDictionary *photosForPlace;
+@property (nonatomic) NSArray *photosForPlace;
 @end
 
 @implementation PhotosForPlaceTVC
@@ -22,7 +23,7 @@
     [super viewDidLoad];
     
     // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -43,14 +44,37 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return [self.photosForPlace count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PhotosForPlaceCell" forIndexPath:indexPath];
     
-    // Configure the cell...
+    NSString *title = [self.photosForPlace[indexPath.row] objectForKey:FLICKR_PHOTO_TITLE];
+    NSString *description = [self.photosForPlace[indexPath.row] objectForKey:FLICKR_PHOTO_DESCRIPTION];
+    if (title)
+    {
+        cell.textLabel.text = title;
+        if (description)
+        {
+            cell.detailTextLabel.text = description;
+            return cell;
+        }
+        
+        cell.detailTextLabel.text = @"";
+        return cell;
+    }
+    
+    if (description)
+    {
+        cell.textLabel.text = description;
+        cell.detailTextLabel.text = @"";
+        return cell;
+    }
+    
+    cell.textLabel.text = @"";
+    cell.detailTextLabel.text = @"";
     
     return cell;
 }
@@ -101,7 +125,7 @@
                                if (!error) {
                                    NSLog(@"photos for place loaded successfully");
                                    NSError *jsonError;
-                                   self.photosForPlace = [NSJSONSerialization JSONObjectWithData:data
+                                   NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data
                                                                                               options:0
                                                                                                 error:&jsonError];
                                    if (jsonError)
@@ -110,6 +134,9 @@
                                        return;
                                    }
                                    
+                                   self.photosForPlace = [result valueForKeyPath:FLICKR_RESULTS_PHOTOS];
+                                   
+                                   [self.tableView reloadData];
                                }
                                else
                                {
@@ -123,11 +150,18 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-//    if ([[segue identifier] isEqualToString:@"topPlacesPhotoCellSegue"])
-//    {
-//        PhotoViewController *photoVC = [segue destinationViewController];
-//        [photoVC setPhotoDetails:[self getPhotoDetailsForCell:sender]];
-//    }
+    if ([[segue identifier] isEqualToString:@"PhotoSelectedSegue"])
+    {
+        PhotoViewController *photoVC = [segue destinationViewController];
+        [photoVC setPhotoDetails:[self getPhotoDetailsForCell:sender]];
+    }
+}
+
+- (NSDictionary *)getPhotoDetailsForCell:(UITableViewCell *)cell
+{
+    NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
+    NSDictionary *photo = self.photosForPlace[cellIndexPath.row];
+    return photo;
 }
 
 @end
