@@ -56,22 +56,37 @@
     
     NSString *country = self.placesArray[indexPath.section];
     
-    NSString *placeInCountry = [self.places objectForKey:country][indexPath.row];
+    NSString *placeName = [[self.places objectForKey:country][indexPath.row] objectForKey:FLICKR_PLACE_NAME];
     
-    NSArray *placeSeparated = [placeInCountry componentsSeparatedByString:@","];
+    NSArray *placeSeparated = [placeName componentsSeparatedByString:@","];
     
-    cell.textLabel.text = placeSeparated[0];
-    
-    cell.detailTextLabel.text = placeSeparated[1];
+    if ([placeSeparated count] == 3)
+    {
+        cell.textLabel.text = placeSeparated[0];
+        cell.detailTextLabel.text = placeSeparated[1];
+    }
+    else
+    {
+        cell.textLabel.text = placeSeparated[0];
+        cell.detailTextLabel.text = @"";
+    }
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    if([view isKindOfClass:[UITableViewHeaderFooterView class]]){
+        UITableViewHeaderFooterView *tableViewHeaderFooterView = (UITableViewHeaderFooterView *) view;
+        tableViewHeaderFooterView.textLabel.text = self.placesArray[section];
+    }
 }
 
 #pragma mark - helper methods
 
 - (void)prepareDataForTableViewCells
 {
-    [FlickrFetcherUtility dictionaryForTopPlaces:^(NSData *data, NSError *error)
+    [FlickrFetcherUtility dictionaryForUrl:[FlickrFetcher URLforTopPlaces] completionBlock:^(NSData *data, NSError *error)
     {
         if (!error)
         {
@@ -88,6 +103,9 @@
             
             NSArray *places = [self.topPlacesDictionary valueForKeyPath:FLICKR_RESULTS_PLACES];
             self.places = [FlickrFetcherUtility placesDictionary:places];
+            self.places = [FlickrFetcherUtility sortPlaces:self.places];
+            
+            
             self.sizesOfPlacesDictionary = [FlickrFetcherUtility sizesOfDictionary:self.places];
             self.placesArray = [self.places allKeys];
             self.places = [FlickrFetcherUtility sortPlaces:self.places];
@@ -145,12 +163,12 @@
     if ([[segue identifier] isEqualToString:@"PhotosForPlaceSegue"])
     {
         PhotosForPlaceTVC *photosForPlaceTVC = [segue destinationViewController];
-        [photosForPlaceTVC loadPhotoListData:[self getPhotoDetailsForCell:sender]];
+        [photosForPlaceTVC loadPhotoListData:[self getPhotosDetailsForCell:sender]];
     }
     
 }
          
-- (NSDictionary *)getPhotoDetailsForCell:(UITableViewCell *)cell
+- (NSDictionary *)getPhotosDetailsForCell:(UITableViewCell *)cell
 {
     NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
     UITableViewHeaderFooterView *headerView = [self.tableView headerViewForSection:cellIndexPath.section];

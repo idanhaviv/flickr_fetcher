@@ -8,21 +8,14 @@
 
 #import "PhotosForPlaceTVC.h"
 #import "FlickrFetcher.h"
+#import "FlickrFetcherUtility.h"
 
 @interface PhotosForPlaceTVC ()
 
+@property (nonatomic) NSDictionary *photosForPlace;
 @end
 
 @implementation PhotosForPlaceTVC
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -45,28 +38,22 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
+    return 1;
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PhotosForPlaceCell" forIndexPath:indexPath];
     
     // Configure the cell...
     
     return cell;
 }
-*/
 
 /*
 // Override to support conditional editing of the table view.
@@ -106,15 +93,30 @@
 }
 */
 
-- (void)loadPhotoListData:(id)input
+- (void)loadPhotoListData:(NSDictionary *)placeDetails
 {
-    NSURL *urlForPhotosInPlace = [FlickrFetcher URLforPhotosInPlace:input maxResults:50];
-    NSURLSession *session = [NSURLSession sharedSession];
-    NSURLSessionDataTask *task = [session dataTaskWithURL:urlForPhotosInPlace
-                                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                            NSLog(@"success");
-                                        }];
-    [task resume];
+    NSURL *urlForPhotosInPlace = [FlickrFetcher URLforPhotosInPlace:[placeDetails objectForKey:FLICKR_PLACE_ID] maxResults:50];
+    [FlickrFetcherUtility dictionaryForUrl:urlForPhotosInPlace
+                           completionBlock:^(NSData *data, NSError *error) {
+                               if (!error) {
+                                   NSLog(@"photos for place loaded successfully");
+                                   NSError *jsonError;
+                                   self.photosForPlace = [NSJSONSerialization JSONObjectWithData:data
+                                                                                              options:0
+                                                                                                error:&jsonError];
+                                   if (jsonError)
+                                   {
+                                       NSLog(@"NSJSONSerialization error @loadPhotoListData: %@", jsonError);
+                                       return;
+                                   }
+                                   
+                               }
+                               else
+                               {
+                                 NSLog(@"error loading photos for place: %@", error);
+                               }
+                               
+                           }];
 }
 
 #pragma mark - Navigation

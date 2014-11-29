@@ -11,11 +11,11 @@
 
 @interface FlickrFetcherUtility : NSObject
 
-+ (void)dictionaryForTopPlaces:(void(^)(NSData *, NSError *))successBlock;
++ (void)dictionaryForUrl:(NSURL *)url completionBlock:(void(^)(NSData *, NSError *))successBlock;
 + (NSDictionary *)dictionaryForPhotosInPlace:(id)placeId maxResults:(int)maxResults;
 + (NSURL *)urlForPhoto:(NSDictionary *)photo;
 + (NSArray *)photosDictionariesForPlace:(id)placeId maxResults:(NSInteger)maxResults;
 + (NSMutableDictionary *)placesDictionary:(NSArray *)places;
 + (NSArray *)sizesOfDictionary:(NSDictionary *)dictionary;
-+ (NSDictionary *)sortPlaces:(NSDictionary *)places; // goes over place.keys and sorts each one's array of specific places
++ (NSDictionary *)sortPlaces:(NSDictionary *)topPlacesDictionary; // goes over place.keys and sorts each one's array of specific places
 @end

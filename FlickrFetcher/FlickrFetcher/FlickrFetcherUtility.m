@@ -11,28 +11,23 @@
 
 @implementation FlickrFetcherUtility
 
-//@return a dictionary: keys = countries, values = array of places in that country
+//@return a dictionary: keys = countries, values = dictionaries of photos details in that country
 + (NSMutableDictionary *)placesDictionary:(NSArray *)places
 {
     NSMutableDictionary *placesDictionary = [[NSMutableDictionary alloc] init];
     for (NSDictionary *place in places)
     {
-        NSArray *placeDetails = [[place valueForKeyPath:FLICKR_PLACE_NAME] componentsSeparatedByString:@","]; //first 2 entries are specific and third is country
-        if ([placeDetails count] != 3)
-        {
-            NSLog(@"place details aren't as expected");
-            continue;
-        }
+        NSArray *placeDetails = [[place valueForKeyPath:FLICKR_PLACE_NAME] componentsSeparatedByString:@","]; //last entry is country
         
-        NSString *country = placeDetails[2];
-        NSString *specificLocation = [[placeDetails[0] stringByAppendingString:@","] stringByAppendingString:placeDetails[1]];
-        if (![placesDictionary objectForKey:placeDetails[2]]) //placeTree doesn't contain country entree
+        NSString *country = [placeDetails lastObject];
+        
+        if (![placesDictionary objectForKey:country])
         {
             NSMutableArray *specificLocationsForCountry = [[NSMutableArray alloc] init];
             [placesDictionary setObject:specificLocationsForCountry forKey:country];
         }
         
-        [[placesDictionary objectForKey:country] addObject:specificLocation];
+        [[placesDictionary objectForKey:country] addObject:place];
     }
 
     return placesDictionary;
@@ -62,11 +57,10 @@
     return photosForPlace;
 }
 
-+ (void)dictionaryForTopPlaces:(void(^)(NSData *, NSError *))successBlock
++ (void)dictionaryForUrl:(NSURL *)url completionBlock:(void(^)(NSData *data, NSError *error))successBlock
 {
-    NSURL *urlForTopPlaces = [FlickrFetcher URLforTopPlaces];
     NSURLSession *session = [NSURLSession sharedSession];
-    NSURLSessionDataTask *task = [session dataTaskWithURL:urlForTopPlaces
+    NSURLSessionDataTask *task = [session dataTaskWithURL:url
            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                    successBlock(data, error);
            }];
@@ -88,20 +82,22 @@
 
 #pragma mark - general utilities
 
-+ (NSDictionary *)sortPlaces:(NSDictionary *)places
++ (NSDictionary *)sortPlaces:(NSDictionary *)topPlacesDictionary
 {
-    for (NSString *place in [places allKeys])
+    for (NSString *country in [topPlacesDictionary allKeys])
     {
-        NSArray *placesArray = [places objectForKey:place];
-        placesArray = [placesArray sortedArrayUsingComparator:^(id obj1, id obj2) {
-            NSComparisonResult result = [obj1 caseInsensitiveCompare:obj2];
+        NSArray *placesInCountry = [topPlacesDictionary objectForKey:country];
+        placesInCountry = [placesInCountry sortedArrayUsingComparator:^(id obj1, id obj2) {
+            NSString *firstPlace = [obj1 objectForKey:FLICKR_PLACE_NAME];
+            NSString *secondPlace = [obj2 objectForKey:FLICKR_PLACE_NAME];
+            NSComparisonResult result = [firstPlace caseInsensitiveCompare:secondPlace];
             return result;
         }];
         
-        [places setValue:placesArray forKey:place];
+        [topPlacesDictionary setValue:placesInCountry forKey:country];
     }
     
-    return places;
+    return topPlacesDictionary;
 }
 
 + (NSArray *)sizesOfDictionary:(NSDictionary *)dictionary

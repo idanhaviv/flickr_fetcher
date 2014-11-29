@@ -10,6 +10,6 @@
 
 @interface PhotosForPlaceTVC : UITableViewController
 
-- (void)loadPhotoListData:id;
+- (void)loadPhotoListData:(NSDictionary *)placeDetails;
 
 @end
