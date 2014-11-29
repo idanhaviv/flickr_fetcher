@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FlickrFetcherTableViewController : UITableViewController
+@interface TopPlacesTVC : UITableViewController
 
 @end

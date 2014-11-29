@@ -6,12 +6,13 @@
 //  Copyright (c) 2014 idan.haviv.org. All rights reserved.
 //
 
-#import "FlickrFetcherTableViewController.h"
+#import "TopPlacesTVC.h"
 #import "FlickrFetcherUtility.h"
 #import "FlickrFetcher.h"
 #import "PhotoViewController.h"
+#import "PhotosForPlaceTVC.h"
     
-@interface FlickrFetcherTableViewController ()
+@interface TopPlacesTVC ()
 
 @property (nonatomic) NSDictionary *topPlacesDictionary;
 @property (nonatomic) NSDictionary *places;
@@ -20,7 +21,7 @@
 
 @end
 
-@implementation FlickrFetcherTableViewController
+@implementation TopPlacesTVC
 
 - (void)viewDidLoad
 {
@@ -141,10 +142,10 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"topPlacesPhotoCellSegue"])
+    if ([[segue identifier] isEqualToString:@"PhotosForPlaceSegue"])
     {
-        PhotoViewController *photoVC = [segue destinationViewController];
-        [photoVC setPhotoDetails:[self getPhotoDetailsForCell:sender]];
+        PhotosForPlaceTVC *photosForPlaceTVC = [segue destinationViewController];
+        [photosForPlaceTVC loadPhotoListData:[self getPhotoDetailsForCell:sender]];
     }
     
 }

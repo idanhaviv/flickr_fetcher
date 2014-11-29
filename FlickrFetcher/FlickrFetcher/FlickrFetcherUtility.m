@@ -11,20 +11,8 @@
 
 @implementation FlickrFetcherUtility
 
-+ (NSArray *)sizesOfDictionary:(NSDictionary *)dictionary
-{
-    NSMutableArray *sizes = [[NSMutableArray alloc] init];
-    for (NSArray *item in [dictionary allValues])
-    {
-        NSUInteger cnt = [item count];
-        NSNumber *num = [NSNumber numberWithInteger:cnt];
-        [sizes addObject:num];
-    }
-    
-    return sizes;
-}
-
-+ (NSMutableDictionary *)placesDictionary:(NSArray *)places //returns a dictionary: keys = countries, values = array of places in that country
+//@return a dictionary: keys = countries, values = array of places in that country
++ (NSMutableDictionary *)placesDictionary:(NSArray *)places
 {
     NSMutableDictionary *placesDictionary = [[NSMutableDictionary alloc] init];
     for (NSDictionary *place in places)
@@ -48,22 +36,6 @@
     }
 
     return placesDictionary;
-}
-
-+ (NSDictionary *)sortPlaces:(NSDictionary *)places
-{
-    for (NSString *place in [places allKeys])
-    {
-        NSArray *placesArray = [places objectForKey:place];
-        placesArray = [placesArray sortedArrayUsingComparator:^(id obj1, id obj2) {
-            NSComparisonResult result = [obj1 caseInsensitiveCompare:obj2];
-            return result;
-        }];
-        
-        [places setValue:placesArray forKey:place];
-    }
-    
-    return places;
 }
 
 + (NSURL *)urlForPhoto:(NSDictionary *)photo
@@ -112,6 +84,37 @@
                                                                                options:0
                                                                                  error:&err];
     return dictionaryForPhotosInPlace;
+}
+
+#pragma mark - general utilities
+
++ (NSDictionary *)sortPlaces:(NSDictionary *)places
+{
+    for (NSString *place in [places allKeys])
+    {
+        NSArray *placesArray = [places objectForKey:place];
+        placesArray = [placesArray sortedArrayUsingComparator:^(id obj1, id obj2) {
+            NSComparisonResult result = [obj1 caseInsensitiveCompare:obj2];
+            return result;
+        }];
+        
+        [places setValue:placesArray forKey:place];
+    }
+    
+    return places;
+}
+
++ (NSArray *)sizesOfDictionary:(NSDictionary *)dictionary
+{
+    NSMutableArray *sizes = [[NSMutableArray alloc] init];
+    for (NSArray *item in [dictionary allValues])
+    {
+        NSUInteger cnt = [item count];
+        NSNumber *num = [NSNumber numberWithInteger:cnt];
+        [sizes addObject:num];
+    }
+    
+    return sizes;
 }
 
 @end

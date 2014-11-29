@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		935798FD1A2A012700069797 /* PhotosForPlaceTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 935798FC1A2A012700069797 /* PhotosForPlaceTVC.m */; };
 		93FE453219B78B360025E0AF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FE453119B78B360025E0AF /* Foundation.framework */; };
 		93FE453419B78B360025E0AF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FE453319B78B360025E0AF /* CoreGraphics.framework */; };
 		93FE453619B78B360025E0AF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FE453519B78B360025E0AF /* UIKit.framework */; };
@@ -23,7 +24,7 @@
 		93FE455E19B78B360025E0AF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93FE455C19B78B360025E0AF /* InfoPlist.strings */; };
 		93FE456019B78B360025E0AF /* FlickrFetcherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FE455F19B78B360025E0AF /* FlickrFetcherTests.m */; };
 		93FE456C19B78B870025E0AF /* FlickrFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FE456B19B78B870025E0AF /* FlickrFetcher.m */; };
-		93FE457319BC1ED60025E0AF /* FlickrFetcherTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FE457219BC1ED60025E0AF /* FlickrFetcherTableViewController.m */; };
+		93FE457319BC1ED60025E0AF /* TopPlacesTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FE457219BC1ED60025E0AF /* TopPlacesTVC.m */; };
 		93FE457619BE39BE0025E0AF /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FE457519BE39BE0025E0AF /* PhotoViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		935798FB1A2A012700069797 /* PhotosForPlaceTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosForPlaceTVC.h; sourceTree = "<group>"; };
+		935798FC1A2A012700069797 /* PhotosForPlaceTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosForPlaceTVC.m; sourceTree = "<group>"; };
 		93FE452E19B78B360025E0AF /* FlickrFetcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrFetcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93FE453119B78B360025E0AF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		93FE453319B78B360025E0AF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -61,8 +64,8 @@
 		93FE456919B78B870025E0AF /* FlickrAPIKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrAPIKey.h; sourceTree = "<group>"; };
 		93FE456A19B78B870025E0AF /* FlickrFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrFetcher.h; sourceTree = "<group>"; };
 		93FE456B19B78B870025E0AF /* FlickrFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrFetcher.m; sourceTree = "<group>"; };
-		93FE457119BC1ED60025E0AF /* FlickrFetcherTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrFetcherTableViewController.h; sourceTree = "<group>"; };
-		93FE457219BC1ED60025E0AF /* FlickrFetcherTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrFetcherTableViewController.m; sourceTree = "<group>"; };
+		93FE457119BC1ED60025E0AF /* TopPlacesTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopPlacesTVC.h; sourceTree = "<group>"; };
+		93FE457219BC1ED60025E0AF /* TopPlacesTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopPlacesTVC.m; sourceTree = "<group>"; };
 		93FE457419BE39BE0025E0AF /* PhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
 		93FE457519BE39BE0025E0AF /* PhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -124,8 +127,10 @@
 		93FE453719B78B360025E0AF /* FlickrFetcher */ = {
 			isa = PBXGroup;
 			children = (
-				93FE457119BC1ED60025E0AF /* FlickrFetcherTableViewController.h */,
-				93FE457219BC1ED60025E0AF /* FlickrFetcherTableViewController.m */,
+				93FE457119BC1ED60025E0AF /* TopPlacesTVC.h */,
+				93FE457219BC1ED60025E0AF /* TopPlacesTVC.m */,
+				935798FB1A2A012700069797 /* PhotosForPlaceTVC.h */,
+				935798FC1A2A012700069797 /* PhotosForPlaceTVC.m */,
 				93FE456D19BB22760025E0AF /* FlickrFetcherApi */,
 				93FE454319B78B360025E0AF /* Main_iPhone.storyboard */,
 				93FE454619B78B360025E0AF /* Main_iPad.storyboard */,
@@ -279,10 +284,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93FE457319BC1ED60025E0AF /* FlickrFetcherTableViewController.m in Sources */,
+				93FE457319BC1ED60025E0AF /* TopPlacesTVC.m in Sources */,
 				93FE453E19B78B360025E0AF /* main.m in Sources */,
 				93FE454B19B78B360025E0AF /* FlickrFetcherUtility.m in Sources */,
 				93FE457619BE39BE0025E0AF /* PhotoViewController.m in Sources */,
+				935798FD1A2A012700069797 /* PhotosForPlaceTVC.m in Sources */,
 				93FE456C19B78B870025E0AF /* FlickrFetcher.m in Sources */,
 				93FE454219B78B360025E0AF /* FlickrFetcherAppDelegate.m in Sources */,
 			);
@@ -499,6 +505,7 @@
 				93FE456519B78B360025E0AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		93FE456619B78B360025E0AF /* Build configuration list for PBXNativeTarget "FlickrFetcherTests" */ = {
 			isa = XCConfigurationList;
@@ -507,6 +514,7 @@
 				93FE456819B78B360025E0AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

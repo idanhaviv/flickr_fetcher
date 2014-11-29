@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--Flickr Fetcher Table View Controller - Item-->
+        <!--Top PlacesTVC - Item-->
         <scene sceneID="uYl-sH-cwu">
             <objects>
-                <tableViewController id="wvr-kV-Sop" customClass="FlickrFetcherTableViewController" sceneMemberID="viewController">
+                <tableViewController id="wvr-kV-Sop" customClass="TopPlacesTVC" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="HnD-tP-HsI">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -37,7 +37,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="jWN-BE-BBr" kind="push" identifier="topPlacesPhotoCellSegue" id="SNI-QL-GkJ"/>
+                                    <segue destination="7O9-yZ-29Y" kind="push" identifier="PhotosForPlaceSegue" id="JSs-ds-lVr"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -75,7 +75,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mke-eS-jo8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1168" y="-53"/>
+            <point key="canvasLocation" x="1742" y="-53"/>
         </scene>
         <!--Table View Controller - Item-->
         <scene sceneID="NWS-3s-IWo">
@@ -105,6 +105,54 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2pX-JY-7gm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="755" y="628"/>
+        </scene>
+        <!--Photos For PlaceTVC-->
+        <scene sceneID="he0-qw-LLn">
+            <objects>
+                <tableViewController id="7O9-yZ-29Y" customClass="PhotosForPlaceTVC" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="GNa-1c-lmO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PhotosForPlaceCell" textLabel="WwM-Xj-PFI" detailTextLabel="PU1-Ze-MWI" style="IBUITableViewCellStyleSubtitle" id="1Yt-Ij-7U3">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1Yt-Ij-7U3" id="jdW-67-swE">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WwM-Xj-PFI">
+                                            <rect key="frame" x="15" y="3" width="34" height="22"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PU1-Ze-MWI">
+                                            <rect key="frame" x="15" y="25" width="43" height="15"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="jWN-BE-BBr" kind="push" identifier="PhotoSelectedSegue" id="myU-qc-cDO"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="7O9-yZ-29Y" id="Jl1-eL-aVG"/>
+                            <outlet property="delegate" destination="7O9-yZ-29Y" id="LRe-G6-zWg"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="6Ly-dV-F5d"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TwD-9p-S2d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1258" y="-53"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ore-JN-fex">
