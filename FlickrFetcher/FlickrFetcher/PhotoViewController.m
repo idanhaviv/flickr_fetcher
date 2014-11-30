@@ -13,7 +13,7 @@
 @interface PhotoViewController () <NSURLSessionDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) UIImageView *imageView;
+@property (strong, nonatomic) UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (nonatomic) NSDictionary *photoDetails;
 
@@ -45,7 +45,7 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.progressView setHidden:YES];
-        [self.imageView setImage:[UIImage imageWithData:data]];
+        self.imageView = [self.imageView initWithImage:[UIImage imageWithData:data]];
         [self.scrollView addSubview:self.imageView];
         self.scrollView.contentSize = self.imageView.bounds.size;
     });

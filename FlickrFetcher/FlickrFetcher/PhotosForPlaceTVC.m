@@ -135,8 +135,9 @@
                                    }
                                    
                                    self.photosForPlace = [result valueForKeyPath:FLICKR_RESULTS_PHOTOS];
-                                   
-                                   [self.tableView reloadData];
+                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                       [self.tableView reloadData];
+                                   });
                                }
                                else
                                {

@@ -109,7 +109,9 @@
             self.sizesOfPlacesDictionary = [FlickrFetcherUtility sizesOfDictionary:self.places];
             self.placesArray = [self.places allKeys];
             self.places = [FlickrFetcherUtility sortPlaces:self.places];
-            [self.tableView reloadData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
         }
         else
         {
