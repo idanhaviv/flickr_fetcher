@@ -27,8 +27,8 @@
 {
     [super viewDidLoad];
     
-    self.clearsSelectionOnViewWillAppear = NO;
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    //self.clearsSelectionOnViewWillAppear = NO;
+    //self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     [self prepareDataForTableViewCells];
 }
@@ -76,9 +76,10 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
-    if([view isKindOfClass:[UITableViewHeaderFooterView class]]){
-        UITableViewHeaderFooterView *tableViewHeaderFooterView = (UITableViewHeaderFooterView *) view;
-        tableViewHeaderFooterView.textLabel.text = self.placesArray[section];
+    if([view isKindOfClass:[UITableViewHeaderFooterView class]])
+    {
+        //UITableViewHeaderFooterView *tableViewHeaderFooterView = (UITableViewHeaderFooterView *) view;
+        //tableViewHeaderFooterView.textLabel.text = self.placesArray[section];
     }
 }
 
@@ -165,7 +166,8 @@
     if ([[segue identifier] isEqualToString:@"PhotosForPlaceSegue"])
     {
         PhotosForPlaceTVC *photosForPlaceTVC = [segue destinationViewController];
-        [photosForPlaceTVC loadPhotoListData:[self getPhotosDetailsForCell:sender]];
+        //Dont load the data from other view copntroller (What the status of VC in this moment ? )
+        [photosForPlaceTVC loadPhotoListData:[self getPhotosDetailsForCell:sender]];//check for background thread
     }
     
 }
@@ -174,7 +176,7 @@
 {
     NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
     UITableViewHeaderFooterView *headerView = [self.tableView headerViewForSection:cellIndexPath.section];
-    NSArray *placesForSection = [self.places objectForKey:headerView.textLabel.text];
+    NSArray *placesForSection = [self.places objectForKey:headerView.textLabel.text];//Dont take the key from the UI take from self.placesArray[section]
     NSDictionary *placeDetails = placesForSection[cellIndexPath.row];
     return placeDetails;
 }

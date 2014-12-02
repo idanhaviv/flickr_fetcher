@@ -18,12 +18,16 @@
 
 @implementation PhotosForPlaceTVC
 
+- (void)awakeFromNib{
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     // Uncomment the following line to preserve selection between presentations.
-    self.clearsSelectionOnViewWillAppear = NO;
+    //self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -53,28 +57,23 @@
     
     NSString *title = [self.photosForPlace[indexPath.row] objectForKey:FLICKR_PHOTO_TITLE];
     NSString *description = [self.photosForPlace[indexPath.row] objectForKey:FLICKR_PHOTO_DESCRIPTION];
+    
+    //Swift Switch case of String :(
     if (title)
     {
         cell.textLabel.text = title;
-        if (description)
-        {
-            cell.detailTextLabel.text = description;
-            return cell;
-        }
-        
-        cell.detailTextLabel.text = @"";
-        return cell;
+        cell.detailTextLabel.text = description;
     }
-    
-    if (description)
+    else if (description)
     {
         cell.textLabel.text = description;
         cell.detailTextLabel.text = @"";
-        return cell;
     }
-    
-    cell.textLabel.text = @"";
-    cell.detailTextLabel.text = @"";
+    else
+    {
+        cell.textLabel.text = @"";
+        cell.detailTextLabel.text = @"";
+    }
     
     return cell;
 }
@@ -135,6 +134,7 @@
                                    }
                                    
                                    self.photosForPlace = [result valueForKeyPath:FLICKR_RESULTS_PHOTOS];
+                                   
                                    dispatch_async(dispatch_get_main_queue(), ^{
                                        [self.tableView reloadData];
                                    });

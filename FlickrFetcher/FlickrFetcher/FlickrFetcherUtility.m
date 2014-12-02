@@ -14,7 +14,8 @@
 //@return a dictionary: keys = countries, values = dictionaries of photos details in that country
 + (NSMutableDictionary *)placesDictionary:(NSArray *)places
 {
-    NSMutableDictionary *placesDictionary = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *placesDictionary = [NSMutableDictionary dictionaryWithCapacity:places.count];
+    
     for (NSDictionary *place in places)
     {
         NSArray *placeDetails = [[place valueForKeyPath:FLICKR_PLACE_NAME] componentsSeparatedByString:@","]; //last entry is country
@@ -53,7 +54,7 @@
                                                                         options:0
                                                                           error:&error];
     NSArray *photosForPlace = [dictionaryForPhotos valueForKeyPath:FLICKR_RESULTS_PHOTOS];
-    NSLog(@"%@", photosForPlace);
+    NSLog(@"%@", photosForPlace);//Try to check logger for releade and debug
     return photosForPlace;
 }
 
@@ -62,12 +63,14 @@
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithURL:url
            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+               if (successBlock){
                    successBlock(data, error);
+               }
            }];
     [task resume];
 }
 
-+ (NSDictionary *)dictionaryForPhotosInPlace:(id)placeId maxResults:(int)maxResults
++ (NSDictionary *)dictionaryForPhotosInPlace:(id)placeId maxResults:(NSUInteger )maxResults//Check ehat is placeID ? Id?
 {
     NSError *err;
     NSString *placeIdString = [NSString stringWithFormat:@"%@", placeId];
@@ -102,7 +105,8 @@
 
 + (NSArray *)sizesOfDictionary:(NSDictionary *)dictionary
 {
-    NSMutableArray *sizes = [[NSMutableArray alloc] init];
+    NSMutableArray *sizes = [NSMutableArray arrayWithCapacity:dictionary.allValues.count];
+    
     for (NSArray *item in [dictionary allValues])
     {
         NSUInteger cnt = [item count];
