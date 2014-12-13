@@ -12,7 +12,7 @@
 @interface FlickrFetcherUtility : NSObject
 
 + (void)dictionaryForUrl:(NSURL *)url completionBlock:(void(^)(NSData *, NSError *))successBlock;
-+ (NSDictionary *)dictionaryForPhotosInPlace:(id)placeId maxResults:(int)maxResults;
++ (NSDictionary *)dictionaryForPhotosInPlace:(id)placeId maxResults:(NSUInteger)maxResults;
 + (NSURL *)urlForPhoto:(NSDictionary *)photo;
 + (NSArray *)photosDictionariesForPlace:(id)placeId maxResults:(NSInteger)maxResults;
 + (NSMutableDictionary *)placesDictionary:(NSArray *)places;

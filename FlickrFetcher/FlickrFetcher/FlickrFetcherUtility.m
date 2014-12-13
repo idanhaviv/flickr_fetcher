@@ -70,7 +70,7 @@
     [task resume];
 }
 
-+ (NSDictionary *)dictionaryForPhotosInPlace:(id)placeId maxResults:(NSUInteger )maxResults//Check ehat is placeID ? Id?
++ (NSDictionary *)dictionaryForPhotosInPlace:(id)placeId maxResults:(NSUInteger)maxResults//Check ehat is placeID ? Id?
 {
     NSError *err;
     NSString *placeIdString = [NSString stringWithFormat:@"%@", placeId];
