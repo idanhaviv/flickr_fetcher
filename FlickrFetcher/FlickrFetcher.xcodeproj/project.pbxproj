@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		935798FD1A2A012700069797 /* PhotosForPlaceTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 935798FC1A2A012700069797 /* PhotosForPlaceTVC.m */; };
+		93AF63471A3CE022000DBEAD /* UserHistoryTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AF63461A3CE022000DBEAD /* UserHistoryTVC.m */; };
 		93FE453219B78B360025E0AF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FE453119B78B360025E0AF /* Foundation.framework */; };
 		93FE453419B78B360025E0AF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FE453319B78B360025E0AF /* CoreGraphics.framework */; };
 		93FE453619B78B360025E0AF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FE453519B78B360025E0AF /* UIKit.framework */; };
@@ -41,6 +42,8 @@
 /* Begin PBXFileReference section */
 		935798FB1A2A012700069797 /* PhotosForPlaceTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosForPlaceTVC.h; sourceTree = "<group>"; };
 		935798FC1A2A012700069797 /* PhotosForPlaceTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosForPlaceTVC.m; sourceTree = "<group>"; };
+		93AF63451A3CE022000DBEAD /* UserHistoryTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserHistoryTVC.h; sourceTree = "<group>"; };
+		93AF63461A3CE022000DBEAD /* UserHistoryTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserHistoryTVC.m; sourceTree = "<group>"; };
 		93FE452E19B78B360025E0AF /* FlickrFetcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrFetcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93FE453119B78B360025E0AF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		93FE453319B78B360025E0AF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -128,14 +131,16 @@
 			isa = PBXGroup;
 			children = (
 				93FE456D19BB22760025E0AF /* FlickrFetcherApi */,
+				93FE454619B78B360025E0AF /* Main_iPad.storyboard */,
 				93FE457119BC1ED60025E0AF /* TopPlacesTVC.h */,
 				93FE457219BC1ED60025E0AF /* TopPlacesTVC.m */,
+				93FE454319B78B360025E0AF /* Main_iPhone.storyboard */,
 				935798FB1A2A012700069797 /* PhotosForPlaceTVC.h */,
 				935798FC1A2A012700069797 /* PhotosForPlaceTVC.m */,
 				93FE457419BE39BE0025E0AF /* PhotoViewController.h */,
 				93FE457519BE39BE0025E0AF /* PhotoViewController.m */,
-				93FE454319B78B360025E0AF /* Main_iPhone.storyboard */,
-				93FE454619B78B360025E0AF /* Main_iPad.storyboard */,
+				93AF63451A3CE022000DBEAD /* UserHistoryTVC.h */,
+				93AF63461A3CE022000DBEAD /* UserHistoryTVC.m */,
 				93FE454919B78B360025E0AF /* FlickrFetcherUtility.h */,
 				93FE454A19B78B360025E0AF /* FlickrFetcherUtility.m */,
 				93FE454C19B78B360025E0AF /* Images.xcassets */,
@@ -287,6 +292,7 @@
 				93FE457319BC1ED60025E0AF /* TopPlacesTVC.m in Sources */,
 				93FE453E19B78B360025E0AF /* main.m in Sources */,
 				93FE454B19B78B360025E0AF /* FlickrFetcherUtility.m in Sources */,
+				93AF63471A3CE022000DBEAD /* UserHistoryTVC.m in Sources */,
 				93FE457619BE39BE0025E0AF /* PhotoViewController.m in Sources */,
 				935798FD1A2A012700069797 /* PhotosForPlaceTVC.m in Sources */,
 				93FE456C19B78B870025E0AF /* FlickrFetcher.m in Sources */,

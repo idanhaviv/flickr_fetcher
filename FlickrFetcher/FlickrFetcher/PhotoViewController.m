@@ -26,6 +26,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationController.navigationBar.hidden = NO;
     NSURL *photoURL = [FlickrFetcher URLforPhoto:self.photoDetails format:FlickrPhotoFormatLarge];
     
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -45,7 +46,8 @@
 
 - (void)prepareImageView:(NSData *)data
 {
-    self.imageView = [[UIImageView alloc]initWithImage:[UIImage imageWithData:data]];
+    UIImage *image = [UIImage imageWithData:data];
+    self.imageView = [[UIImageView alloc]initWithImage:image];
     [self.scrollView addSubview:self.imageView];
     self.scrollView.contentSize = self.imageView.bounds.size;
 }
@@ -70,11 +72,12 @@
                                                            forKeys:@[NSBaselineOffsetAttributeName, NSFontAttributeName]];
 
     CGSize labelSize = [text sizeWithAttributes:attributes];
-    CGRect frame = CGRectMake(10, 400, labelSize.width, labelSize.height);
+    CGRect frame = CGRectMake(10, 100, labelSize.width, labelSize.height);
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
     label.text = text;
     label.font = [UIFont fontWithName:@"Zapfino"
                                  size:20];
+    label.textColor = [UIColor whiteColor];
     [self.view addSubview:label];
 }
 

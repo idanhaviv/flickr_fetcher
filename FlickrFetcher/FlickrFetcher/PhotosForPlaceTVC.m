@@ -70,6 +70,37 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSArray *photosForUserImmutable = [userDefaults arrayForKey:@"photoList"];
+    NSMutableArray *photosForUser;
+    
+    if (photosForUserImmutable)
+    {
+        photosForUser = [[NSMutableArray alloc] initWithArray:photosForUserImmutable];
+        NSDictionary *photo = self.photosForPlace[indexPath.row];
+        NSString *photoID = [photo valueForKey:FLICKR_PHOTO_ID];
+        NSArray *currentPhotoIDs = [photosForUser valueForKey:FLICKR_PHOTO_ID];
+        if (![currentPhotoIDs containsObject:photoID])
+        {
+            if ([photosForUser count] == 20)
+            {
+                [photosForUser removeLastObject];
+            }
+            
+            [photosForUser addObject:photo];
+        }
+    }
+    else
+    {
+        NSDictionary *photo = self.photosForPlace[indexPath.row];
+        photosForUser = [[NSMutableArray alloc] initWithArray:@[photo]];
+    }
+    
+    [userDefaults setObject:photosForUser forKey:@"photoList"];
+}
+
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

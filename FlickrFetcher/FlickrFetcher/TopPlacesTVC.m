@@ -27,8 +27,6 @@
 {
     [super viewDidLoad];
     self.navigationController.navigationBar.hidden = YES;
-    //self.clearsSelectionOnViewWillAppear = NO;
-    //self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     [self prepareDataForTableViewCells];
 }
